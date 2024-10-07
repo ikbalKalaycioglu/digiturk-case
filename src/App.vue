@@ -1,26 +1,38 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <router-view class="view-region"></router-view>
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
-
+<script lang="ts">
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  mounted() {
+    Element.prototype.scrollIntoViewVertically = function () {
+      const viewRegion = document.querySelector('.view-region');
+      if (viewRegion && this instanceof HTMLElement) {
+        viewRegion.scrollTop = this.offsetTop - (window.innerHeight / 2);
+      }
+    };
+
+    Element.prototype.scrollIntoViewHorizontally = function (parent: HTMLElement) {
+      if (this instanceof HTMLElement) {
+        parent.scrollLeft = this.offsetLeft - (parent.clientWidth / 2) + (this.clientWidth / 2);
+      }
+    };
   }
 }
 </script>
-
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  overflow: hidden;
+}
+
+.view-region {
+  height: 100vh;
+  overflow: auto;
+  position: relative;
+  margin: 10px;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 </style>
